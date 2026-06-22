@@ -9,7 +9,7 @@ const Home = () => {
 
   useEffect(()=>{
     const fetchProducts =async ()=>{
-      const response = await fetch("/products.json");
+      const response = await fetch("/shop-cart/products.json");
       if(!response.ok) throw new Error("Failed to load json");
       const data = await response.json();
       dispatch(setProducts(data))

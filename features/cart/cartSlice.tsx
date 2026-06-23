@@ -5,11 +5,13 @@ import type { cartItem, Product } from '../../types'
 interface CartState {
   cart: cartItem[],
   isCardOpen: boolean;
+  loading: boolean
 }
 
 const initialState: CartState = {
   cart: [],
-  isCardOpen: false
+  isCardOpen: false,
+  loading: true
 }
 
 const cartSlice = createSlice({
@@ -33,9 +35,9 @@ const cartSlice = createSlice({
       id: number,
       delta: number
     }>) => {
-      const item = state.cart.find((item)=> item.id === action.payload.id)
+      const item = state.cart.find((item) => item.id === action.payload.id)
 
-      if(item){
+      if (item) {
         item.quantity = Math.max(item.quantity + action.payload.delta, 1)
       }
 
@@ -48,10 +50,13 @@ const cartSlice = createSlice({
     },
     closeCart: (state) => {
       state.isCardOpen = false
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
     }
 
   }
 })
 
-export const { addToCart, openCart, closeCart, removeCart, updateQuantity } = cartSlice.actions;
+export const { addToCart, openCart, closeCart, removeCart, updateQuantity, setLoading } = cartSlice.actions;
 export default cartSlice.reducer

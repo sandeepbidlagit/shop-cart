@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import Home from "./pages/Home"
 import Preloader from "./components/Preloader";
+import { useAppDispatch, useAppSelector } from "../types/hooks";
+import { setLoading } from "../features/cart/cartSlice";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
+  const loader = useAppSelector((state)=> state.cart.loading)
   
-useEffect(() => {
-  const timer = setTimeout(() => {
-    setLoading(false);
-  }, 2000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(setLoading(false));
+    }, 2000);
 
-  return () => clearTimeout(timer);
-}, []);
+    return () => clearTimeout(timer);
+  }, [dispatch]);
 
 
-  if (loading) {
+  if (loader) {
     return <Preloader />
   }
 
@@ -26,3 +29,5 @@ useEffect(() => {
 }
 
 export default App
+
+
